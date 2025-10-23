@@ -1,24 +1,76 @@
-# README
+# 📚 Readable Backend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Backend Rails para o projeto Readable - uma aplicação para salvar e processar documentos HTML.
 
-Things you may want to cover:
+## 🚀 Tecnologias
 
-* Ruby version
+- Ruby on Rails 8.1.0
+- PostgreSQL
+- Docker & Docker Compose
+- Solid Cache, Solid Queue, Solid Cable
 
-* System dependencies
+## 📦 Pré-requisitos
 
-* Configuration
+- Docker
+- Docker Compose
 
-* Database creation
+## ⚙️ Setup com Docker
 
-* Database initialization
+```bash
+# 1. Clonar repositório
+git clone git@github.com:LeoGodde/readable_backend.git
+cd readable_backend
 
-* How to run the test suite
+# 2. Build e iniciar containers
+docker-compose up -d
 
-* Services (job queues, cache servers, search engines, etc.)
+# 3. Setup do banco de dados
+rails db:create
+rails db:migrate
 
-* Deployment instructions
+# 4. Acessar aplicação
+# http://localhost:3000
+```
 
-* ...
+## 🧪 Comandos Úteis
+
+```bash
+# Iniciar containers
+docker-compose up -d
+
+# Parar containers
+docker-compose down
+
+# Logs da aplicação
+docker-compose logs -f web
+
+# Console Rails
+rails c
+
+# Servidor Rails
+rails s
+
+# Testes
+rails test
+
+# Ver rotas
+rails routes
+```
+
+## 🔧 Desenvolvimento Local (sem Docker)
+
+Se preferir rodar localmente, instale PostgreSQL e:
+
+```bash
+bundle install
+rails db:create db:migrate
+rails server
+```
+
+## 📝 API Endpoints (planejado)
+
+- `GET /documents` - Listar documentos
+- `POST /documents` - Criar novo documento
+- `GET /documents/:id` - Ver documento específico
+- `PUT/PATCH /documents/:id` - Atualizar documento
+- `DELETE /documents/:id` - Remover documento
