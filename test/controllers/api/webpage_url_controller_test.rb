@@ -1,7 +1,6 @@
 require "test_helper"
 
 class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
-
   # ===== TESTES DO CREATE (POST) =====
 
   test "deve criar webpage_url com dados válidos" do

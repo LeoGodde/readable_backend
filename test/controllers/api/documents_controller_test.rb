@@ -1,7 +1,6 @@
 require "test_helper"
 
 class Api::DocumentsControllerTest < ActionDispatch::IntegrationTest
-
   test "deve criar documento com dados válidos" do
     assert_difference("Document.count", 1) do
       post api_documents_url, params: {
