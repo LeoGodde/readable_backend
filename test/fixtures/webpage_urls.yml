@@ -1,0 +1,28 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+valid_webpage_url:
+  url: "https://www.google.com"
+  title: "Google"
+  username: "paulo"
+
+another_valid_webpage_url:
+  url: "https://www.yahoo.com"
+  title: "Yahoo"
+  username: "maria"
+
+webpage_url_without_username:
+  url: "https://www.example.com"
+  title: "Example"
+
+webpage_url_without_url:
+  title: "Example"
+  username: "joao"
+
+webpage_url_without_title:
+  url: "https://www.example.com"
+  username: "joao"
+
+invalid_url_webpage_url:
+  url: "invalid-url"
+  title: "Invalid URL"
+  username: "paulo"
