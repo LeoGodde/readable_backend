@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Documento Exemplo — Lorem Ipsum</title>
+  <style>
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      line-height: 1.6;
+      margin: 2rem;
+      background: #f7f7fb;
+      color: #111
+    }
+
+    header,
+    nav,
+    main,
+    footer,
+    aside,
+    article,
+    section {
+      display: block
+    }
+
+    header {
+      margin-bottom: 1rem
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 1rem
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(12, 12, 20, 0.06)
+    }
+
+    pre {
+      background: #0b1220;
+      color: #e6eef8;
+      padding: 0.75rem;
+      border-radius: 6px;
+      overflow: auto
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5rem 0
+    }
+
+    th,
+    td {
+      border: 1px solid #e6e9ef;
+      padding: 0.5rem;
+      text-align: left
+    }
+
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px
+    }
+
+    footer {
+      font-size: .9rem;
+      color: #555;
+      margin-top: 1rem
+    }
+
+    .muted {
+      color: #666;
+      font-size: .95rem
+    }
+
+    details summary {
+      cursor: pointer
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Lorem Ipsum — Documento de Exemplo</h1>
+      <p class="muted">Um HTML de tamanho médio com uma variedade de tags para demonstração.</p>
+    </header>
+
+    <nav aria-label="menu principal">
+      <ul>
+        <li><a href="#introducao">Introdução</a></li>
+        <li><a href="#conteudo">Conteúdo</a></li>
+        <li><a href="#tabela">Tabela</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <article id="introducao">
+        <section>
+          <h2>Introdução</h2>
+          <p><strong>Lorem ipsum</strong> dolor sit amet, consectetur adipiscing elit. <em>Praesent</em> commodo, nisl
+            at convallis volutpat, felis sapien suscipit arcu, vitae bibendum neque sapien at lorem. Integer
+            sollicitudin, arcu nec fermentum tincidunt, lectus tortor pharetra sapien, a dictum mauris sapien et urna.
+          </p>
+          <p>Phasellus a velit sit amet arcu <a href="#conteudo">viverra</a> luctus. Nulla facilisi. Donec efficitur,
+            odio eu volutpat iaculis, risus lectus gravida magna, id <code>varius()</code> nunc nisl in nibh.</p>
+        </section>
+
+        <section id="conteudo">
+          <h3>Parágrafos e citação</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Curabitur vitae sapien non
+            ipsum sodales feugiat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+            curae;</p>
+
+          <blockquote>
+            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus
+              ante dapibus diam."</p>
+            <footer>— <cite>Fonte: Texto de exemplo</cite></footer>
+          </blockquote>
+
+          <h4>Listas</h4>
+          <ul>
+            <li>Lorem ipsum dolor sit amet</li>
+            <li>Consectetur adipiscing elit
+              <ol>
+                <li>Subitem um</li>
+                <li>Subitem dois</li>
+              </ol>
+            </li>
+            <li>Integer nec odio</li>
+          </ul>
+
+          <h4>Definições</h4>
+          <dl>
+            <dt>HTML</dt>
+            <dd>HyperText Markup Language — linguagem de marcação para páginas web.</dd>
+            <dt>CSS</dt>
+            <dd>Cascading Style Sheets — folhas de estilo em cascata.</dd>
+          </dl>
+
+          <figure>
+            <img src="https://via.placeholder.com/800x300.png?text=Imagem+Exemplo" alt="Imagem de exemplo">
+            <figcaption>Figura 1: Imagem de espaço reservado usada para demonstração.</figcaption>
+          </figure>
+
+          <h4>Trecho de código</h4>
+          <pre><code>&lt;!-- Exemplo de código HTML --&gt;
+&lt;h1&gt;Olá Mundo&lt;/h1&gt;</code></pre>
+
+          <details>
+            <summary>Mais informações (clique para expandir)</summary>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.</p>
+          </details>
+        </section>
+      </article>
+
+      <aside>
+        <h4>Informações rápidas</h4>
+        <p class="muted">Aliquam euismod, lacus quis cursus mollis, sapien justo efficitur arcu, nec dictum sapien
+          lectus in arcu.</p>
+      </aside>
+
+      <section id="tabela">
+        <h2>Tabela de Exemplo</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Descrição</th>
+              <th>Quantidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Item A</td>
+              <td>Lorem ipsum dolor sit</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>Item B</td>
+              <td>Consectetur adipiscing</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>Item C</td>
+              <td>Integer nec odio</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="contato">
+        <h2>Formulário de Contato</h2>
+        <form action="#" method="post">
+          <label for="nome">Nome:</label><br>
+          <input id="nome" name="nome" type="text" placeholder="Seu nome"><br><br>
+
+          <label for="email">E‑mail:</label><br>
+          <input id="email" name="email" type="email" placeholder="seu@exemplo.com"><br><br>
+
+          <label for="mensagem">Mensagem:</label><br>
+          <textarea id="mensagem" name="mensagem" rows="4" placeholder="Escreva sua mensagem..."></textarea><br><br>
+
+          <fieldset>
+            <legend>Preferências</legend>
+            <label><input type="checkbox" name="news" checked> Receber novidades</label><br>
+            <label><input type="radio" name="urgencia" value="alta"> Alta prioridade</label>
+            <label><input type="radio" name="urgencia" value="baixa" checked> Baixa prioridade</label>
+          </fieldset>
+
+          <button type="submit">Enviar</button>
+        </form>
+      </section>
+
+    </main>
+
+    <footer>
+      <p>© <time datetime="2025-10-24">24 de outubro de 2025</time>. Documento gerado com texto <strong>lorem
+          ipsum</strong>.</p>
+      <address>Contato: <a href="mailto:contato@exemplo.com">contato@exemplo.com</a></address>
+    </footer>
+  </div>
+</body>
+
+</html>

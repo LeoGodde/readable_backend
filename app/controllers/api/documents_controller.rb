@@ -2,7 +2,18 @@ class Api::DocumentsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    document = Document.new(document_params)
+    begin
+      sanitized_html = HtmlSanitizerService.new(document_params[:html_content]).call
+      document = Document.new(document_params.merge(html_content: sanitized_html))
+    rescue NameError => e
+      Rails.logger.error "Erro ao carregar HtmlSanitizerService: #{e.message}"
+      render json: { error: "Erro interno do servidor ao processar o HTML" }, status: :internal_server_error
+      return
+    rescue => e
+      Rails.logger.error "Erro ao sanitizar HTML: #{e.message}"
+      render json: { error: "Erro ao processar o HTML: #{e.message}" }, status: :unprocessable_entity
+      return
+    end
 
     if document.save
       render json: {
