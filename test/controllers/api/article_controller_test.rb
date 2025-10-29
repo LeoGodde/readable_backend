@@ -1,12 +1,12 @@
 require "test_helper"
 
-class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
+class Api::ArticlesControllerTest < ActionDispatch::IntegrationTest
   # ===== TESTES DO CREATE (POST) =====
 
-  test "deve criar webpage_url com dados válidos" do
-    assert_difference("WebpageUrl.count", 1) do
-      post api_webpage_urls_url, params: {
-        webpage_url: {
+  test "deve criar article com dados válidos" do
+    assert_difference("Article.count", 1) do
+      post api_articles_url, params: {
+        article: {
           username: "leo",
           url: "https://www.google.com",
           title: "Google Search"
@@ -18,15 +18,15 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
 
     json_response = JSON.parse(response.body)
     assert_equal "URL salva com sucesso!", json_response["message"]
-    assert_equal "leo", json_response["webpage_url"]["username"]
-    assert_equal "https://www.google.com", json_response["webpage_url"]["url"]
-    assert_equal "Google Search", json_response["webpage_url"]["title"]
+    assert_equal "leo", json_response["article"]["username"]
+    assert_equal "https://www.google.com", json_response["article"]["url"]
+    assert_equal "Google Search", json_response["article"]["title"]
   end
 
-  test "não deve criar webpage_url sem username" do
-    assert_no_difference("WebpageUrl.count") do
-      post api_webpage_urls_url, params: {
-        webpage_url: {
+  test "não deve criar article sem username" do
+    assert_no_difference("Article.count") do
+      post api_articles_url, params: {
+        article: {
           url: "https://www.google.com",
           title: "Google Search"
         }
@@ -39,10 +39,10 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
     assert_includes json_response["errors"], "Username can't be blank"
   end
 
-  test "não deve criar webpage_url sem url" do
-    assert_no_difference("WebpageUrl.count") do
-      post api_webpage_urls_url, params: {
-        webpage_url: {
+  test "não deve criar article sem url" do
+    assert_no_difference("Article.count") do
+      post api_articles_url, params: {
+        article: {
           username: "leo",
           title: "Google Search"
         }
@@ -55,10 +55,10 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
     assert_includes json_response["errors"], "Url can't be blank"
   end
 
-  test "não deve criar webpage_url sem title" do
-    assert_no_difference("WebpageUrl.count") do
-      post api_webpage_urls_url, params: {
-        webpage_url: {
+  test "não deve criar article sem title" do
+    assert_no_difference("Article.count") do
+      post api_articles_url, params: {
+        article: {
           username: "leo",
           url: "https://www.google.com"
         }
@@ -71,20 +71,20 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
     assert_includes json_response["errors"], "Title can't be blank"
   end
 
-  test "não deve criar webpage_url vazia" do
-    assert_no_difference("WebpageUrl.count") do
-      post api_webpage_urls_url, params: {
-        webpage_url: {}
+  test "não deve criar article vazia" do
+    assert_no_difference("Article.count") do
+      post api_articles_url, params: {
+        article: {}
       }, as: :json
     end
 
     assert_response :bad_request
   end
 
-  test "não deve criar webpage_url com múltiplos erros" do
-    assert_no_difference("WebpageUrl.count") do
-      post api_webpage_urls_url, params: {
-        webpage_url: {
+  test "não deve criar article com múltiplos erros" do
+    assert_no_difference("Article.count") do
+      post api_articles_url, params: {
+        article: {
           username: "",
           url: "",
           title: ""
@@ -102,8 +102,8 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
 
   # ===== TESTES DO INDEX (GET ALL) =====
 
-  test "deve listar todas as webpage_urls" do
-    get api_webpage_urls_url, as: :json
+  test "deve listar todas as articles" do
+    get api_articles_url, as: :json
 
     assert_response :success
 
@@ -113,9 +113,9 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "lista vazia deve retornar array vazio" do
-    WebpageUrl.destroy_all
+    Article.destroy_all
 
-    get api_webpage_urls_url, as: :json
+    get api_articles_url, as: :json
 
     assert_response :success
     json_response = JSON.parse(response.body)
@@ -124,27 +124,27 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
 
   # ===== TESTES DO SHOW (GET ONE) =====
 
-  test "deve mostrar uma webpage_url específica" do
-    webpage_url = webpage_urls(:valid_webpage_url)
+  test "deve mostrar uma article específica" do
+    article = articles(:valid_article)
 
-    get api_webpage_url_url(webpage_url), as: :json
+    get api_article_url(article), as: :json
 
     assert_response :success
 
     json_response = JSON.parse(response.body)
-    assert_equal webpage_url.id, json_response["id"]
-    assert_equal webpage_url.username, json_response["username"]
-    assert_equal webpage_url.url, json_response["url"]
-    assert_equal webpage_url.title, json_response["title"]
+    assert_equal article.id, json_response["id"]
+    assert_equal article.username, json_response["username"]
+    assert_equal article.url, json_response["url"]
+    assert_equal article.title, json_response["title"]
   end
 
-  test "deve retornar erro 404 para webpage_url inexistente" do
-    get api_webpage_url_url(id: 99999), as: :json
+  test "deve retornar erro 404 para article inexistente" do
+    get api_article_url(id: 99999), as: :json
 
     assert_response :not_found
 
     json_response = JSON.parse(response.body)
-    assert_equal "Webpage URL não encontrada", json_response["error"]
+    assert_equal "Article não encontrada", json_response["error"]
   end
 
   # ===== TESTES DE VALIDAÇÃO DE URL =====
@@ -158,9 +158,9 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
     ]
 
     valid_urls.each do |url|
-      assert_difference("WebpageUrl.count", 1) do
-        post api_webpage_urls_url, params: {
-          webpage_url: {
+      assert_difference("Article.count", 1) do
+        post api_articles_url, params: {
+          article: {
             username: "test",
             url: url,
             title: "Test Title"
@@ -169,17 +169,17 @@ class Api::WebpageUrlsControllerTest < ActionDispatch::IntegrationTest
       end
 
       assert_response :created
-      WebpageUrl.last.destroy # limpa para próximo teste
+      Article.last.destroy # limpa para próximo teste
     end
   end
 
   # ===== TESTES DE PERFORMANCE =====
 
-  test "deve criar webpage_url rapidamente" do
+  test "deve criar article rapidamente" do
     start_time = Time.current
 
-    post api_webpage_urls_url, params: {
-      webpage_url: {
+    post api_articles_url, params: {
+      article: {
         username: "leo",
         url: "https://www.google.com",
         title: "Google Search"

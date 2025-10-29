@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-# Serviço responsável por limpar HTML, mantendo apenas tags relacionadas a texto
-# Remove scripts, styles, forms, imagens, links e outras tags não relacionadas a conteúdo textual
 class HtmlSanitizerService
-  # Tags permitidas - apenas elementos de texto e estrutura de conteúdo
+  #
   ALLOWED_TAGS = %w[
     p span div
     h1 h2 h3 h4 h5 h6
     ul ol li
-    strong b em i u mark small del ins sub sup
+    strong b em i u small del ins sub sup
     blockquote cite q
     pre code kbd samp var
     abbr dfn time
@@ -16,12 +14,11 @@ class HtmlSanitizerService
     article section aside
     header footer main
     table thead tbody tfoot tr th td caption
-    br hr
+    br
   ].freeze
 
-  # Atributos permitidos (mínimos, apenas para contexto)
+
   ALLOWED_ATTRIBUTES = %w[
-    id
     lang
     dir
   ].freeze
@@ -30,7 +27,7 @@ class HtmlSanitizerService
     @html_content = html_content
   end
 
-  # Método principal que executa a sanitização
+
   def call
     return "" if @html_content.blank?
 
@@ -38,29 +35,32 @@ class HtmlSanitizerService
 
     sanitize_node(doc)
 
-    # Remove tags vazias recursivamente
     remove_empty_tags(doc)
 
-    # Remove quebras de linha
-    doc.to_html.strip.gsub(/\n/, "")
+    html = doc.to_html.strip
+      .gsub(/\n/, "")
+      .gsub(/\t/, "")
+      .gsub(/\s+/, " ")
+
+
+    remove_empty_html_tags(html)
   end
 
   private
 
   def sanitize_node(node)
-    # Remove comments
     node.xpath(".//comment()").remove
 
-    # Remove scripts, styles, forms, buttons, inputs, etc
+
     remove_unwanted_tags(node)
 
-    # Remove links mas mantém o conteúdo textual
+
     unwrap_links(node)
 
-    # Remove imagens
+
     node.css("img, picture, svg, video, audio, iframe, embed, object").remove
 
-    # Limpa atributos não permitidos
+
     clean_attributes(node)
 
     node
@@ -80,7 +80,6 @@ class HtmlSanitizerService
   end
 
   def unwrap_links(node)
-    # Remove a tag <a> mas mantém o texto interno
     node.css("a").each do |link|
       link.replace(link.inner_html)
     end
@@ -88,12 +87,11 @@ class HtmlSanitizerService
 
   def clean_attributes(node)
     node.css("*").each do |element|
-      # Remove todos os atributos não permitidos
       element.attributes.each_key do |attr|
         element.remove_attribute(attr) unless ALLOWED_ATTRIBUTES.include?(attr)
       end
 
-      # Remove tags que não estão na whitelist (mas mantém o conteúdo)
+
       unless ALLOWED_TAGS.include?(element.name.downcase)
         element.replace(element.inner_html) if element.name != "document"
       end
@@ -101,10 +99,9 @@ class HtmlSanitizerService
   end
 
   def remove_empty_tags(node)
-    # Remove tags vazias ou que contém apenas espaços em branco
     loop do
       empty_tags = node.css("*").select do |element|
-        next false if %w[br hr].include?(element.name.downcase) # Mantém tags auto-fechadas
+        next false if %w[br hr].include?(element.name.downcase)
 
         element.content.strip.empty? && element.children.empty?
       end
@@ -113,5 +110,18 @@ class HtmlSanitizerService
 
       empty_tags.each(&:remove)
     end
+  end
+
+
+  def remove_empty_html_tags(html)
+    loop do
+      initial = html
+
+      html = html.gsub(/<(\w+)>\s*<\/\1>/, "")
+
+      break if html == initial
+    end
+
+    html
   end
 end
