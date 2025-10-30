@@ -1,8 +1,8 @@
 class FetchHtmlAndSanitizeJob < ApplicationJob
   queue_as :default
 
-  def perform(webpage_url_id, url)
-    webpage_url = WebpageUrl.find(webpage_url_id)
+  def perform(article_id, url)
+    article = Article.find(article_id)
 
     require "net/http"
     require "uri"
@@ -26,21 +26,21 @@ class FetchHtmlAndSanitizeJob < ApplicationJob
 
       sanitized_html = HtmlSanitizerService.new(main_content).call
 
-      webpage_url.update!(
+      article.update!(
         title: extracted_title,
         html_content: sanitized_html,
         status: "completed"
       )
 
     else
-      webpage_url.update!(
+      article.update!(
         status: "failed",
         html_content: "Error: #{response.message}"
       )
     end
 
   rescue StandardError => e
-    webpage_url&.update!(
+    article&.update!(
       status: "failed",
       html_content: "Error: #{e.message}"
     )

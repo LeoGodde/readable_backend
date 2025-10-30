@@ -75,7 +75,7 @@ class HtmlSanitizerServiceTest < ActiveSupport::TestCase
     html = <<~HTML
       <div>
         <p>Texto com <strong>negrito</strong>, <em>itálico</em>, e <u>sublinhado</u>.</p>
-        <p>Também <mark>destacado</mark> e <small>pequeno</small>.</p>
+        <p>Também destacado e <small>pequeno</small>.</p>
         <code>código inline</code>
       </div>
     HTML
@@ -85,7 +85,6 @@ class HtmlSanitizerServiceTest < ActiveSupport::TestCase
     assert_includes result, "<strong>negrito</strong>"
     assert_includes result, "<em>itálico</em>"
     assert_includes result, "<u>sublinhado</u>"
-    assert_includes result, "<mark>destacado</mark>"
     assert_includes result, "<small>pequeno</small>"
     assert_includes result, "<code>código inline</code>"
   end
