@@ -23,7 +23,7 @@ services:
       - key: RAILS_MAX_THREADS
         value: 5
     # Comando para rodar ANTES do deploy (quando DATABASE_URL já está disponível)
-    preDeployCommand: "./bin/rails db:prepare"
+    preDeployCommand: "./bin/prepare-databases"
     healthCheckPath: /up
     autoDeploy: true # Deploy automático quando push no GitHub
 
