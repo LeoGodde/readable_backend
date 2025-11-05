@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Script auxiliar para configurar o Render
+# Uso: ./bin/render-setup
+
+set -e
+
+echo "🚀 Readable Backend - Setup para Render.com"
+echo "==========================================="
+echo ""
+
+# Verificar se o master.key existe
+if [ ! -f "config/master.key" ]; then
+  echo "❌ ERRO: config/master.key não encontrado!"
+  echo "   Você precisa deste arquivo para fazer deploy."
+  exit 1
+fi
+
+echo "✅ master.key encontrado"
+echo ""
+echo "📋 Seu RAILS_MASTER_KEY:"
+echo "----------------------------------------"
+cat config/master.key
+echo ""
+echo "----------------------------------------"
+echo ""
+echo "⚠️  IMPORTANTE: Guarde este valor em local seguro!"
+echo ""
+echo "📝 Próximos passos:"
+echo ""
+echo "1. Acesse: https://dashboard.render.com"
+echo "2. Crie um novo Blueprint apontando para este repositório"
+echo "3. Quando solicitado, cole o RAILS_MASTER_KEY acima"
+echo "4. Aguarde o deploy completar (~5-10 minutos)"
+echo ""
+echo "📚 Documentação completa: docs/DEPLOY_RENDER.md"
+echo ""
+echo "🎉 Boa sorte com o deploy!"

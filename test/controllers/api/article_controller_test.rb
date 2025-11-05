@@ -192,4 +192,21 @@ class Api::ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
     assert duration < 1.second, "Criação deve ser rápida (< 1 segundo)"
   end
+
+  test "deve reprocessar article" do
+    article = articles(:valid_article)
+
+    post api_reprocess_article_url(article), as: :json
+
+    assert_response :success
+
+    json_response = JSON.parse(response.body)
+    assert_equal "Article reprocessada com sucesso!", json_response["message"]
+    assert_equal article.id, json_response["article"]["id"]
+    assert_equal article.username, json_response["article"]["username"]
+    assert_equal article.url, json_response["article"]["url"]
+    assert_equal article.title, json_response["article"]["title"]
+    assert_not_nil json_response["article"]["html_content"]
+    assert_equal "completed", json_response["article"]["status"]
+  end
 end

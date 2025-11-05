@@ -35,3 +35,6 @@
 
 # Docker
 .dockerignore
+
+# Render
+.render-buildpacks.json

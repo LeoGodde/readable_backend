@@ -27,14 +27,11 @@ class Api::ArticlesController < ApplicationController
   end
 
   def reprocess
-    @article.update(status: "pending", html_content: "processing")
+    FetchHtmlAndSanitizeJob.perform_now(@article.id, @article.url)
 
-    FetchHtmlAndSanitizeJob.perform_later(@article.id, @article.url)
+    @article.reload
 
     render json: { message: "Article reprocessada com sucesso!", article: @article }, status: :ok
-  rescue StandardError => e
-    @article.update(status: "failed", html_content: "Error: #{e.message}")
-    render json: { error: "Erro ao reprocessar Article", article: @article }, status: :unprocessable_entity
   end
 
   def destroy

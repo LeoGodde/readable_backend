@@ -1,0 +1,35 @@
+services:
+  # Aplicação Rails Backend
+  - type: web
+    name: readable-backend
+    runtime: docker
+    plan: starter
+    region: oregon # Altere para sua região preferida (oregon, frankfurt, singapore, etc)
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false # Você vai adicionar manualmente no Dashboard
+      - key: DATABASE_URL
+        fromDatabase:
+          name: readable-db
+          property: connectionString
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_LOG_TO_STDOUT
+        value: true
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+      - key: RAILS_MAX_THREADS
+        value: 5
+    healthCheckPath: /up
+    autoDeploy: true # Deploy automático quando push no GitHub
+
+databases:
+  # PostgreSQL Database
+  - name: readable-db
+    plan: starter # $7/mês - 1GB armazenamento
+    region: oregon # Mesma região do web service
+    databaseName: readable_backend_production
+    user: readable_backend
+    ipAllowList: [] # Permite acesso apenas do Render

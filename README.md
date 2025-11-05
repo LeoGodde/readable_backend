@@ -67,10 +67,42 @@ rails db:create db:migrate
 rails server
 ```
 
-## 📝 API Endpoints (planejado)
+## 📝 API Endpoints
 
-- `GET /documents` - Listar documentos
-- `POST /documents` - Criar novo documento
-- `GET /documents/:id` - Ver documento específico
-- `PUT/PATCH /documents/:id` - Atualizar documento
-- `DELETE /documents/:id` - Remover documento
+- `GET /api/articles` - Listar artigos
+- `POST /api/articles` - Criar novo artigo (envia URL para processamento)
+- `GET /api/articles/:id` - Ver artigo específico
+- `DELETE /api/articles/:id` - Remover artigo
+- `GET /up` - Health check
+
+## 🌐 Deploy
+
+### Render.com (Recomendado)
+
+Este projeto está configurado para deploy fácil no Render.com.
+
+**Custo:** $14/mês (Web Service $7 + PostgreSQL $7)
+
+```bash
+# Ver seu RAILS_MASTER_KEY
+./bin/render-setup
+
+# Ou manualmente
+cat config/master.key
+```
+
+Siga o guia completo: [docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md)
+
+**Deploy rápido via Blueprint:**
+1. Faça push do código para GitHub
+2. Acesse: https://dashboard.render.com
+3. New + → Blueprint
+4. Conecte seu repositório
+5. Cole seu RAILS_MASTER_KEY quando solicitado
+6. Deploy automático! 🚀
+
+## 📚 Documentação
+
+- [Deploy no Render](docs/DEPLOY_RENDER.md)
+- [HTML Sanitizer Resumo](HTML_SANITIZER_RESUMO.md)
+- [Sanitizer Usage](SANITIZER_USAGE.md)
