@@ -6,11 +6,27 @@ echo "==> Preparing all databases for production..."
 echo "==> Preparing primary database..."
 ./bin/rails db:prepare
 
-# Para cada database secundário, tenta preparar (funciona se existir migrations_paths)
-for db in cache queue cable; do
-  echo "==> Preparing ${db} database..."
-  RAILS_DB=$db ./bin/rails db:prepare 2>/dev/null || echo "${db} database prepared or not configured"
-done
+# Carrega schemas dos databases secundários usando Rails runner
+echo "==> Loading Solid Cache schema..."
+./bin/rails runner "
+  ActiveRecord::Base.establish_connection(:cache)
+  load(Rails.root.join('db/cache_schema.rb'))
+  puts '  ✓ Cache schema loaded'
+" || echo "  ⚠ Cache schema load failed or already exists"
+
+echo "==> Loading Solid Queue schema..."
+./bin/rails runner "
+  ActiveRecord::Base.establish_connection(:queue)
+  load(Rails.root.join('db/queue_schema.rb'))
+  puts '  ✓ Queue schema loaded'
+" || echo "  ⚠ Queue schema load failed or already exists"
+
+echo "==> Loading Solid Cable schema..."
+./bin/rails runner "
+  ActiveRecord::Base.establish_connection(:cable)
+  load(Rails.root.join('db/cable_schema.rb'))
+  puts '  ✓ Cable schema loaded'
+" || echo "  ⚠ Cable schema load failed or already exists"
 
 echo "==> All databases prepared successfully!"
 
