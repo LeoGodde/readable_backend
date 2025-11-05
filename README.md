@@ -81,7 +81,9 @@ rails server
 
 Este projeto está configurado para deploy fácil no Render.com.
 
-**Custo:** $14/mês (Web Service $7 + PostgreSQL $7)
+**Custo:** 
+- **Grátis para testar:** Web Service Free + PostgreSQL Free (90 dias)
+- **Produção:** ~$21/mês (Web Service $7 + PostgreSQL Standard $15/mês)
 
 ```bash
 # Ver seu RAILS_MASTER_KEY

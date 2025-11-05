@@ -28,7 +28,7 @@ services:
 databases:
   # PostgreSQL Database
   - name: readable-db
-    plan: starter # $7/mês - 1GB armazenamento
+    plan: free # Plano gratuito (expire após 90 dias) - Para produção use: standard
     region: oregon # Mesma região do web service
     databaseName: readable_backend_production
     user: readable_backend
