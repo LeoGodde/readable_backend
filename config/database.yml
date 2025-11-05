@@ -66,6 +66,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
     database: readable_backend_production
     username: readable_backend
     password: <%= ENV["READABLE_BACKEND_DATABASE_PASSWORD"] %>
