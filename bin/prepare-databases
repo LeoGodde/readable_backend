@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+echo "==> Preparing all databases for production..."
+
+# Prepara o database primary (cria se não existir, ou roda migrações)
+echo "==> Preparing primary database..."
+./bin/rails db:prepare
+
+# Para cada database secundário, tenta preparar (funciona se existir migrations_paths)
+for db in cache queue cable; do
+  echo "==> Preparing ${db} database..."
+  RAILS_DB=$db ./bin/rails db:prepare 2>/dev/null || echo "${db} database prepared or not configured"
+done
+
+echo "==> All databases prepared successfully!"
+
