@@ -1,6 +1,6 @@
 class Api::ArticlesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_article, only: %w[show destroy]
+  before_action :set_article, only: %w[show destroy reprocess]
 
   def create
     article = Article.new(article_params.merge(html_content: "processing"))
@@ -26,6 +26,17 @@ class Api::ArticlesController < ApplicationController
     render json: @article
   end
 
+  def reprocess
+    @article.update(status: "pending", html_content: "processing")
+
+    FetchHtmlAndSanitizeJob.perform_later(@article.id, @article.url)
+
+    render json: { message: "Article reprocessada com sucesso!", article: @article }, status: :ok
+  rescue StandardError => e
+    @article.update(status: "failed", html_content: "Error: #{e.message}")
+    render json: { error: "Erro ao reprocessar Article", article: @article }, status: :unprocessable_entity
+  end
+
   def destroy
     if @article.destroy
       render json: { message: "Article deletada com sucesso!" }, status: :ok
@@ -44,5 +55,9 @@ class Api::ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Article não encontrada" }, status: :not_found
+  end
+
+  def reprocess_article_params
+    params.require(:reprocess_article).permit(:article_id)
   end
 end
