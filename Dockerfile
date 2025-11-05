@@ -36,6 +36,8 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
+RUN gem install bundler -v 2.6.7
+
 COPY Gemfile Gemfile.lock ./
 
 RUN bundle install && \
