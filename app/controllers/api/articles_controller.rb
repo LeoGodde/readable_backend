@@ -27,11 +27,27 @@ class Api::ArticlesController < ApplicationController
   end
 
   def reprocess
-    FetchHtmlAndSanitizeJob.perform_now(@article.id, @article.url)
+    begin
+      FetchHtmlAndSanitizeJob.perform_now(@article.id, @article.url)
 
-    @article.reload
+      @article.reload
 
-    render json: { message: "Article reprocessada com sucesso!", article: @article }, status: :ok
+      if @article.status == "completed"
+        render json: { message: "Article reprocessada com sucesso!", article: @article }, status: :ok
+      else
+        render json: {
+          message: "Não foi possível processar este artigo.",
+          error: @article.html_content,
+          article: @article.merge(html_content: "Não foi possível processar este artigo.")
+        }, status: :unprocessable_entity
+      end
+    rescue StandardError => e
+      render json: {
+        message: "Erro ao reprocessar o artigo",
+        error: e.message,
+        article: @article
+      }, status: :unprocessable_entity
+    end
   end
 
   def destroy

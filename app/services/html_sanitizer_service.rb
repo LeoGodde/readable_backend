@@ -42,7 +42,6 @@ class HtmlSanitizerService
       .gsub(/\t/, "")
       .gsub(/\s+/, " ")
 
-
     remove_empty_html_tags(html)
   end
 
@@ -51,15 +50,11 @@ class HtmlSanitizerService
   def sanitize_node(node)
     node.xpath(".//comment()").remove
 
-
     remove_unwanted_tags(node)
-
 
     unwrap_links(node)
 
-
     node.css("img, picture, svg, video, audio, iframe, embed, object").remove
-
 
     clean_attributes(node)
 
